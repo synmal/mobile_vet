@@ -10,21 +10,24 @@
         <li class="nav-item">
           <%= link_to 'Home', root_path, class:'nav-link' %>        
         </li>
-        <% if signed_in? %>
-          <li class="nav-item">
-            <%= link_to 'Log Out', logout_path, class:'nav-link' %>        
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to 'Log In', login_path, class:'nav-link' %>        
-          </li>
-        <% end %>
       </ul>
 
       <ul class="navbar-nav">
         <% if signed_in? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Signed in as <%= current_user.name %>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <%= link_to 'View Profile', user_path(current_user.id), class:'dropdown-item' %>
+              <%= link_to 'Edit Profile', edit_user_path(current_user.id), class:'dropdown-item' %>
+              <div class="dropdown-divider"></div>
+              <%= link_to 'Log Out', logout_path, class:'dropdown-item' %>
+            </div>
+          </li>
+        <% else %>
           <li class="nav-item">
-            <p class='nav-link'>Signed in as <%= current_user.name %></p>      
+            <%= link_to 'Log In', login_path, class:'nav-link' %>        
           </li>
         <% end %>
       </ul>

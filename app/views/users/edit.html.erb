@@ -1,0 +1,5 @@
+<h1>Edit your Profile</h1>
+<%= form_with model: @user, local: true do |form| %>
+  <%= render partial: 'users/form', object: form %>
+  <%= form.submit 'Update Profile', class:'btn btn-outline-primary' %>
+<% end %>

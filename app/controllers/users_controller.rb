@@ -1,5 +1,14 @@
 class UsersController < ApplicationController
+  before_action :set_user, except: [:new, :create]
+  before_action :require_login
+
   def new
+  end
+
+  def show
+    if current_user != User.find(params[:id])
+      redirect_to user_path(current_user.id)
+    end
   end
 
   def create
@@ -14,9 +23,19 @@ class UsersController < ApplicationController
   end
 
   def edit
+    if current_user != User.find(params[:id])
+      redirect_to edit_user_path(current_user.id)
+    end
   end
 
   def update
+    if @user.update(user_params)
+      redirect_to root_path
+      flash[:success] = 'Profile updated'
+    else
+      redirect_to edit_user_path(@user.id)
+      flash[:error] = 'Something is wrong'
+    end
   end
 
   def destroy
@@ -25,5 +44,9 @@ class UsersController < ApplicationController
   private
   def user_params
     params.require(:user).permit(:name, :address, :email, :password)
+  end
+
+  def set_user
+    @user = User.find(params[:id])
   end
 end
