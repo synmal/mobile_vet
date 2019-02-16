@@ -1,6 +1,7 @@
 class PetsController < ApplicationController
   before_action :require_login
-  before_action :set_user, only: [:index]
+  before_action :set_user, only: [:index, :edit]
+  before_action :set_pet, only: [:edit, :update]
 
   def new
   end
@@ -20,6 +21,13 @@ class PetsController < ApplicationController
   end
 
   def update
+    if @pet.update(pet_params)
+      redirect_to user_pets_path(current_user.id)
+      flash[:success] = 'Pet info updated'
+    else
+      redirect_to edit_user_pet_path(current_user.id, @pet.id)
+      flash[:error] = 'Something is wrong'
+    end
   end
 
   def destroy
@@ -32,5 +40,9 @@ class PetsController < ApplicationController
 
   def set_user
     @user = User.find(current_user.id)
+  end
+
+  def set_pet
+    @pet = Pet.find(params[:id])
   end
 end

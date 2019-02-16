@@ -1,0 +1,6 @@
+<h1>Edit Pet Details</h1>
+
+<%= form_with model: [@user, @pet], local: true, scope: :pet do |form| %>
+  <%= render partial: 'form', object: form %>
+  <%= form.submit 'Edit', class: 'btn btn-outline-primary' %>
+<% end %>
