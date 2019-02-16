@@ -1,0 +1,6 @@
+<h1>New Appointment</h1>
+
+<%= form_with url: user_appointments_path(@user.id), local: true, scope: :appointment do |form| %>
+  <%= render partial: 'form', object: form %>
+  <%= form.submit 'Create New Appointment', class:'btn btn-outline-primary' %>
+<% end %>
