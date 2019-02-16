@@ -5,4 +5,5 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :name, :address, presence: true
   enum roles: [:doctor, :user, :admin]
+  attr_encrypted :phone, key: ENV['SECRET_KEY']
 end
