@@ -1,0 +1,6 @@
+<h1>Edit your Profile</h1>
+<%= form_with model: @user, local: true do |form| %>
+  <%= render partial: 'users/form', object: form %>
+  <%= form.submit 'Update Profile', class:'btn btn-outline-primary' %>
+  <%= link_to 'Delete Account', user_path(current_user.id), method: :delete, data: { confirm: 'Are you sure? All of your appointments will be deleted.' }, class: 'btn btn-outline-danger'%>
+<% end %>
