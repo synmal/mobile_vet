@@ -26,7 +26,7 @@ class PetsController < ApplicationController
       flash[:success] = 'Pet info updated'
     else
       redirect_to edit_user_pet_path(current_user.id, @pet.id)
-      flash[:error] = 'Something is wrong'
+      flash[:error] = @pet.errors.full_messages[0]
     end
   end
 

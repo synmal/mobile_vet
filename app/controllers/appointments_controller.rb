@@ -1,5 +1,6 @@
 class AppointmentsController < ApplicationController
   before_action :set_user
+  before_action :set_appointment, only: [:edit, :update, :destroy]
   before_action :require_login
 
   def new
@@ -26,9 +27,23 @@ class AppointmentsController < ApplicationController
   end
 
   def update
+    if @appointment.update(appointment_params)
+      redirect_to user_appointments_path(current_user.id)
+      flash[:success] = 'Appointment details updated'
+    else
+      redirect_to edit_user_appointment_path(current_user.id, @appointment.id)
+      flash[:error] = @appointment.errors.full_messages[0]
+    end
   end
 
   def destroy
+    if @appointment.destroy
+      redirect_to user_appointments_path(current_user.id)
+      flash[:success] = 'Appointment successfully deleted'
+    else
+      redirect_to user_appointments_path(current_user.id)
+      flash[:error] = 'Something is wrong'
+    end
   end
 
   private
@@ -38,5 +53,9 @@ class AppointmentsController < ApplicationController
 
   def appointment_params
     params.require(:appointment).permit(:pet_id, :description, :appointment_date, :location)
+  end
+
+  def set_appointment
+    @appointment = Appointment.find(params[:id])
   end
 end
