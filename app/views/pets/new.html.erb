@@ -1,0 +1,6 @@
+<h1>Add New Pet</h1>
+
+<%= form_with url: user_pets_path(current_user.id), local: true, scope: :pet do |form| %>
+  <%= render partial: 'form', object: form %>
+  <%= form.submit 'Add Pet', class: 'btn btn-outline-primary' %>
+<% end %>
