@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, except: [:new, :create]
-  before_action :require_login
+  before_action :require_login, except: [:new, :create]
 
   def new
   end
@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   def create
     user = User.new(user_params)
     if user.save
+      session[:user_id] = user.id
       redirect_to root_path
       flash[:success] = "Account created"
     else
@@ -39,6 +40,14 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    if @user.destroy
+      session[:user_id] = nil
+      redirect_to root_path
+      flash[:success] = 'Your account successfully deleted'
+    else
+      redirect_to edit_user_path(@user.id)
+      flash[:error] = 'Something is wrong. Please try again later'
+    end
   end
 
   private
