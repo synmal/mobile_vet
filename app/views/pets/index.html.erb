@@ -4,5 +4,6 @@
 <% current_user.pets.each do |pet| %>
   <h4><%= pet.name %></h4>
   <%= link_to 'Edit Pet Info', edit_user_pet_path(current_user.id, pet.id), class: 'btn btn-outline-primary' %>
+  <%= link_to 'Delete Pet', user_pet_path(current_user.id, pet.id), method: :delete, class: 'btn btn-outline-danger' %>
   <hr>
 <% end %>

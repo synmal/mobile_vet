@@ -1,7 +1,7 @@
 class PetsController < ApplicationController
   before_action :require_login
   before_action :set_user, only: [:index, :edit]
-  before_action :set_pet, only: [:edit, :update]
+  before_action :set_pet, only: [:edit, :update, :destroy]
 
   def new
   end
@@ -31,6 +31,13 @@ class PetsController < ApplicationController
   end
 
   def destroy
+    if @pet.destroy
+      redirect_to user_pets_path(current_user.id)
+      flash[:success] = 'Pet successfully deleted'
+    else
+      redirect_to user_pets_path(current_user.id)
+      flash[:error] = 'Something is wrong'
+    end
   end
 
   private
