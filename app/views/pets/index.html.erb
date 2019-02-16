@@ -1,2 +1,8 @@
 <h1>Your pets</h1>
 <%= link_to 'Add New Pet', new_user_pet_path(current_user.id), class: 'btn btn-outline-primary' %>
+<div class='m-5'></div>
+<% current_user.pets.each do |pet| %>
+  <h4><%= pet.name %></h4>
+  <%= link_to 'Edit Pet Info', edit_user_pet_path(current_user.id, pet.id), class: 'btn btn-outline-primary' %>
+  <hr>
+<% end %>
