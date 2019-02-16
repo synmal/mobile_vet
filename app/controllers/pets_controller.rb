@@ -1,5 +1,6 @@
 class PetsController < ApplicationController
   before_action :require_login
+  before_action :check_user
   before_action :set_user, only: [:index, :edit]
   before_action :set_pet, only: [:edit, :update, :destroy]
 
@@ -46,10 +47,17 @@ class PetsController < ApplicationController
   end
 
   def set_user
-    @user = User.find(current_user.id)
+    @user = User.find(params[:user_id])
   end
 
   def set_pet
     @pet = Pet.find(params[:id])
+  end
+
+  def check_user
+    if current_user != set_user
+      redirect_to root_path
+      flash[:error] = 'Access Denied'
+    end
   end
 end

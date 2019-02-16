@@ -1,7 +1,8 @@
 class AppointmentsController < ApplicationController
+  before_action :require_login
+  before_action :check_user
   before_action :set_user
   before_action :set_appointment, only: [:edit, :update, :destroy]
-  before_action :require_login
 
   def new
   end
@@ -57,5 +58,12 @@ class AppointmentsController < ApplicationController
 
   def set_appointment
     @appointment = Appointment.find(params[:id])
+  end
+
+  def check_user
+    if current_user != set_user
+      redirect_to root_path
+      flash[:error] = 'Access Denied'
+    end
   end
 end
