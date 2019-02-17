@@ -1,7 +1,7 @@
 class AppointmentsController < ApplicationController
   before_action :require_login
-  before_action :check_user
-  before_action :set_user
+  before_action :check_user, except: [:all]
+  before_action :set_user, except: [:all]
   before_action :set_appointment, only: [:edit, :update, :destroy]
 
   def new
@@ -45,6 +45,9 @@ class AppointmentsController < ApplicationController
       redirect_to user_appointments_path(current_user.id)
       flash[:error] = 'Something is wrong'
     end
+  end
+
+  def all
   end
 
   private
