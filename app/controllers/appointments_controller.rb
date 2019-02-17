@@ -1,7 +1,7 @@
 class AppointmentsController < ApplicationController
   before_action :require_login
-  before_action :check_user, except: [:all]
-  before_action :set_user, except: [:all]
+  before_action :check_user, except: [:all, :update_status]
+  before_action :set_user, except: [:all, :update_status]
   before_action :set_appointment, only: [:edit, :update, :destroy]
 
   def new
@@ -48,6 +48,26 @@ class AppointmentsController < ApplicationController
   end
 
   def all
+    if !current_user.doctor?
+      redirect_to root_path
+      flash[:error] = 'Access Denied'
+    end
+  end
+
+  def update_status
+    app_id = params[:id].to_i
+    app_status = params[:status].to_i
+    appointment = Appointment.find(app_id)
+    appointment.update(status: app_status)
+    if appointment.save
+      p appointment
+      respond_to do |format|
+        format.html
+        format.json {render json: appointment }
+      end
+    else
+      p 'something is wrong'
+    end
   end
 
   private

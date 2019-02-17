@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   get 'login', to: 'sessions#new', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
   get 'all_appointments', to: 'appointments#all', as: 'all_appointments'
+  post 'appointments/:id/update_status', to: 'appointments#update_status', as: 'update_status'
+  # post 'appointments/:id/decline', to: 'appointments#decline_appointment', as: 'decline_appointment'
 end
