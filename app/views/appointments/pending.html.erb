@@ -1,5 +1,5 @@
-<h1>Sup Doc</h1>
-<% Appointment.all.each do |app| %>
+<h1>Pending Appointments</h1>
+<% @appointments.all.each do |app| %>
   <h3>Client: <%= app.user.name %></h3>
   <h3>Pet: <%= app.pet.name %></h3>
   <h3>Type: <%= app.pet.pet_type %></h3>

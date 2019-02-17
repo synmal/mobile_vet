@@ -19,7 +19,16 @@
               <%= link_to 'All Appointments', user_appointments_path(current_user.id), class:'nav-link' %>        
             </li>
           <% elsif current_user.doctor? %>
-              <%= link_to 'Appointments', all_appointments_path, class:'nav-link' %>                    
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Appointments
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <%= link_to 'Pending', pending_appointments_path, class:'dropdown-item' %>
+                  <%= link_to 'Accepted', accepted_appointments_path, class:'dropdown-item' %>
+                  <%= link_to 'Declined', declined_appointments_path, class: 'dropdown-item' %>
+                </div>
+              </li>                  
           <% end %>
         <% end %>
       </ul>
