@@ -1,9 +1,11 @@
 class AppointmentsController < ApplicationController
   before_action :require_login
-  before_action :check_user, except: [:pending, :accepted, :declined, :update_status]
-  before_action :set_user, except: [:pending, :accepted, :declined, :update_status]
+  before_action :check_user, only: [:index]
+  before_action :set_user, only: [:new, :create, :index, :edit]
   before_action :set_appointment, only: [:edit, :update, :destroy]
-
+  before_action :check_status, only: [:edit, :update, :destroy]
+  before_action :check_appointment, only: [:edit, :update]
+  
   def new
   end
 
@@ -92,11 +94,11 @@ class AppointmentsController < ApplicationController
 
   private
   def set_user
-    @user = User.find(params[:user_id])
+    @user = User.find(current_user.id)
   end
 
   def appointment_params
-    params.require(:appointment).permit(:pet_id, :description, :appointment_date, :location)
+    params.require(:appointment).permit(:pet_id, :description, :appointment_date, :location, :time)
   end
 
   def set_appointment
@@ -104,7 +106,21 @@ class AppointmentsController < ApplicationController
   end
 
   def check_user
-    if current_user != set_user
+    if current_user.id != params[:user_id].to_i
+      redirect_to root_path
+      flash[:error] = 'Access Denied'
+    end
+  end
+
+  def check_appointment
+    if current_user != set_appointment.user
+      redirect_to root_path
+      flash[:error] = 'Access Denied'
+    end
+  end
+
+  def check_status
+    if set_appointment.status != 'pending'
       redirect_to root_path
       flash[:error] = 'Access Denied'
     end

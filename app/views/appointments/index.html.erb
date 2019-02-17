@@ -1,13 +1,13 @@
 <h1>All of your Appointments</h1>
 
-<% current_user.appointments.each do |appointment| %>
-  <h4><%= appointment.appointment_date %></h4>
+<% current_user.appointments.reverse.each do |appointment| %>
+  <h4><%= appointment.appointment_date %> <%= appointment.time.strftime("%H:%M") %></h4>
   <p><%= appointment.pet.name %></p>
   <p><%= appointment.description %></p>
   <p><%= appointment.location %></p>
   <p><%= appointment.status %></p>
   <% if appointment.status == 'pending' %>
-    <%= link_to 'Edit Appointment', edit_user_appointment_path(current_user.id, appointment.id), class:'btn btn-outline-primary' %>
-    <%= link_to 'Delete Appointment', user_appointment_path(current_user.id, appointment.id), method: :delete, class:'btn btn-outline-danger' %>
+    <%= link_to 'Edit Appointment', edit_appointment_path(appointment.id), class:'btn btn-outline-primary mb-2' %>
+    <%= link_to 'Delete Appointment', appointment_path(appointment.id), method: :delete, class:'btn btn-outline-danger mb-2' %>
   <% end %>
 <% end %>

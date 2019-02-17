@@ -1,6 +1,6 @@
 <h1>Edit your Appointment</h1>
 
-<%= form_with model: [@user, @appointment], local: true, scope: :appointment do |form| %>
+<%= form_with model: @appointment, local: true, scope: :appointment do |form| %>
   <%= render partial: 'form', object: form %>
   <%= form.submit 'Update Appointment', class:'btn btn-outline-primary' %>
 <% end %>

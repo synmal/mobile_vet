@@ -1,4 +1,7 @@
 FactoryBot.define do
+  factory :diagnosis do
+    
+  end
   factory :appointment do
     user { nil }
     pet { nil }
