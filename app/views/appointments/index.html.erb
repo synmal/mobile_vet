@@ -5,6 +5,9 @@
   <p><%= appointment.pet.name %></p>
   <p><%= appointment.description %></p>
   <p><%= appointment.location %></p>
-  <%= link_to 'Edit Appointment', edit_user_appointment_path(current_user.id, appointment.id), class:'btn btn-outline-primary' %>
-  <%= link_to 'Delete Appointment', user_appointment_path(current_user.id, appointment.id), method: :delete, class:'btn btn-outline-danger' %>
+  <p><%= appointment.status %></p>
+  <% if appointment.status == 'pending' %>
+    <%= link_to 'Edit Appointment', edit_user_appointment_path(current_user.id, appointment.id), class:'btn btn-outline-primary' %>
+    <%= link_to 'Delete Appointment', user_appointment_path(current_user.id, appointment.id), method: :delete, class:'btn btn-outline-danger' %>
+  <% end %>
 <% end %>

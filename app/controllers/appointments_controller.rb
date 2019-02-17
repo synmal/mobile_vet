@@ -1,7 +1,7 @@
 class AppointmentsController < ApplicationController
   before_action :require_login
-  before_action :check_user
-  before_action :set_user
+  before_action :check_user, except: [:pending, :accepted, :declined, :update_status]
+  before_action :set_user, except: [:pending, :accepted, :declined, :update_status]
   before_action :set_appointment, only: [:edit, :update, :destroy]
 
   def new
@@ -44,6 +44,49 @@ class AppointmentsController < ApplicationController
     else
       redirect_to user_appointments_path(current_user.id)
       flash[:error] = 'Something is wrong'
+    end
+  end
+
+  def pending
+    if !current_user.doctor?
+      redirect_to root_path
+      flash[:error] = 'Access Denied'
+    else
+      @appointments = Appointment.where(status: 'pending')
+    end
+  end
+
+  def accepted
+    if !current_user.doctor?
+      redirect_to root_path
+      flash[:error] = 'Access Denied'
+    else
+      @appointments = Appointment.where(status: 'accepted').order(created_at: :DESC)
+    end
+  end
+
+  def declined
+    if !current_user.doctor?
+      redirect_to root_path
+      flash[:error] = 'Access Denied'
+    else
+      @appointments = Appointment.where(status: 'declined').order(created_at: :DESC)
+    end
+  end
+
+  def update_status
+    app_id = params[:id].to_i
+    app_status = params[:status].to_i
+    appointment = Appointment.find(app_id)
+    appointment.update(status: app_status)
+    if appointment.save
+      respond_to do |format|
+        format.html
+        format.json {render json: appointment }
+      end
+    else
+      redirect_to pending_appointments_path
+      flash[:error] = 'Something is wrong. Please try again later.'
     end
   end
 
