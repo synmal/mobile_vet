@@ -2,7 +2,7 @@ class AppointmentsController < ApplicationController
   before_action :require_login
   before_action :check_user, only: [:index]
   before_action :set_user, only: [:new, :create, :index, :edit]
-  before_action :set_appointment, only: [:edit, :update, :destroy, :status_sms]
+  before_action :set_appointment, only: [:edit, :update, :destroy]
   before_action :check_status, only: [:edit, :update, :destroy]
   before_action :check_appointment, only: [:edit, :update]
   
@@ -82,6 +82,12 @@ class AppointmentsController < ApplicationController
     appointment = Appointment.find(app_id)
     appointment.update(status: app_status)
     if appointment.save
+      client = Twilio::REST::Client.new
+      client.messages.create({
+        from: ENV['TWILIO_PHONE_NUMBER'],
+        to: appointment.user.phone,
+        body: "Your appointment for #{appointment.pet.name} on #{appointment.appointment_date} at #{appointment.time.strftime("%H:%M")} has been #{appointment.status}"
+      })
       respond_to do |format|
         format.html
         format.json {render json: appointment }
@@ -92,14 +98,14 @@ class AppointmentsController < ApplicationController
     end
   end
 
-  def status_sms
-    client = Twilio::REST::client.new
-    client.messages.create({
-      from: ENV['TWILIO_PHONE_NUMBER'],
-      to: @appointment.user.phone,
-      body: "Your appointment for #{@appointment.pet} on #{@appointment.appointment_date} at #{@appointment.time.strftime("%H:%M")} has been #{@appointment.status}"
-    })
-  end
+  # def status_sms
+  #   client = Twilio::REST::client.new
+  #   client.messages.create({
+  #     from: ENV['TWILIO_PHONE_NUMBER'],
+  #     to: @appointment.user.phone,
+  #     body: "Your appointment for #{@appointment.pet} on #{@appointment.appointment_date} at #{@appointment.time.strftime("%H:%M")} has been #{@appointment.status}"
+  #   })
+  # end
 
   private
   def set_user
