@@ -2,7 +2,7 @@ class AppointmentsController < ApplicationController
   before_action :require_login
   before_action :check_user, only: [:index]
   before_action :set_user, only: [:new, :create, :index, :edit]
-  before_action :set_appointment, only: [:edit, :update, :destroy]
+  before_action :set_appointment, only: [:edit, :update, :destroy, :status_sms]
   before_action :check_status, only: [:edit, :update, :destroy]
   before_action :check_appointment, only: [:edit, :update]
   
@@ -90,6 +90,15 @@ class AppointmentsController < ApplicationController
       redirect_to pending_appointments_path
       flash[:error] = 'Something is wrong. Please try again later.'
     end
+  end
+
+  def status_sms
+    client = Twilio::REST::client.new
+    client.messages.create({
+      from: ENV['TWILIO_PHONE_NUMBER'],
+      to: @appointment.user.phone,
+      body: "Your appointment for #{@appointment.pet} on #{@appointment.appointment_date} at #{@appointment.time.strftime("%H:%M")} has been #{@appointment.status}"
+    })
   end
 
   private
