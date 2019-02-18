@@ -10,6 +10,7 @@ class AppointmentsController < ApplicationController
   end
 
   def index
+    @appointments = current_user.appointments.order(created_at: :DESC).page params[:page]
   end
 
   def show
