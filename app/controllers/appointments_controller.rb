@@ -82,6 +82,12 @@ class AppointmentsController < ApplicationController
     appointment = Appointment.find(app_id)
     appointment.update(status: app_status)
     if appointment.save
+      client = Twilio::REST::Client.new
+      client.messages.create({
+        from: ENV['TWILIO_PHONE_NUMBER'],
+        to: appointment.user.phone,
+        body: "Your appointment for #{appointment.pet.name} on #{appointment.appointment_date} at #{appointment.time.strftime("%H:%M")} has been #{appointment.status}"
+      })
       respond_to do |format|
         format.html
         format.json {render json: appointment }
@@ -91,6 +97,15 @@ class AppointmentsController < ApplicationController
       flash[:error] = 'Something is wrong. Please try again later.'
     end
   end
+
+  # def status_sms
+  #   client = Twilio::REST::client.new
+  #   client.messages.create({
+  #     from: ENV['TWILIO_PHONE_NUMBER'],
+  #     to: @appointment.user.phone,
+  #     body: "Your appointment for #{@appointment.pet} on #{@appointment.appointment_date} at #{@appointment.time.strftime("%H:%M")} has been #{@appointment.status}"
+  #   })
+  # end
 
   private
   def set_user
