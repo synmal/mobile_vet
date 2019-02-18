@@ -54,7 +54,7 @@ class AppointmentsController < ApplicationController
       redirect_to root_path
       flash[:error] = 'Access Denied'
     else
-      @appointments = Appointment.where(status: 'pending')
+      @appointments = Appointment.where(status: 'pending').page params[:page]
     end
   end
 
@@ -63,7 +63,7 @@ class AppointmentsController < ApplicationController
       redirect_to root_path
       flash[:error] = 'Access Denied'
     else
-      @appointments = Appointment.where(status: 'accepted').order(created_at: :DESC)
+      @appointments = Appointment.where(status: 'accepted').order(created_at: :DESC).page params[:page]
     end
   end
 
@@ -72,7 +72,7 @@ class AppointmentsController < ApplicationController
       redirect_to root_path
       flash[:error] = 'Access Denied'
     else
-      @appointments = Appointment.where(status: 'declined').order(created_at: :DESC)
+      @appointments = Appointment.where(status: 'declined').order(created_at: :DESC).page params[:page]
     end
   end
 
@@ -97,15 +97,6 @@ class AppointmentsController < ApplicationController
       flash[:error] = 'Something is wrong. Please try again later.'
     end
   end
-
-  # def status_sms
-  #   client = Twilio::REST::client.new
-  #   client.messages.create({
-  #     from: ENV['TWILIO_PHONE_NUMBER'],
-  #     to: @appointment.user.phone,
-  #     body: "Your appointment for #{@appointment.pet} on #{@appointment.appointment_date} at #{@appointment.time.strftime("%H:%M")} has been #{@appointment.status}"
-  #   })
-  # end
 
   private
   def set_user
