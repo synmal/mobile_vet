@@ -39,5 +39,5 @@
       <%= form.label :location %>
       <small class='mx-2 form-text text-muted'>*Required</small>
     </div>
-  <%= form.text_field :location, class:'form-control' %>
+  <%= form.text_field :location, class:'form-control', value: "#{current_user.address}" %>
 </div>
