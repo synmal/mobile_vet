@@ -40,14 +40,16 @@
 # minute = [0, 30]
 
 # ActiveRecord::Base.transaction do
-#   User.where(roles: 'user').each do |user|
-#     appointment['user_id'] = user.id
-#     appointment['pet_id'] = user.pets.sample.id
-#     appointment['description'] = Faker::Lorem.paragraph(3)
-#     appointment['appointment_date'] = Faker::Date.forward(100)
-#     appointment['location'] = user.address
-#     appointment['time'] = Time.new(2000, 1, 1, hour.sample, minute.sample, 0)
-#     appointment['status'] = Faker::Number.between(1, 2)
-#     Appointment.create(appointment)
+#   19.times do
+#     User.where(roles: 'user').each do |user|
+#       appointment['user_id'] = user.id
+#       appointment['pet_id'] = user.pets.sample.id
+#       appointment['description'] = Faker::Lorem.paragraph(3)
+#       appointment['appointment_date'] = Faker::Date.forward(100)
+#       appointment['location'] = user.address
+#       appointment['time'] = Time.new(2000, 1, 1, hour.sample, minute.sample, 0)
+#       appointment['status'] = Faker::Number.between(1, 2)
+#       Appointment.create(appointment)
+#     end
 #   end
 # end
