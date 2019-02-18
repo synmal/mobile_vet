@@ -1,0 +1,5 @@
+$(document).ready(function(){
+  $("#appointments-container").html('<%= j render("index") %>')
+  $("html, body").animate({ scrollTop: 0 }, "slow");
+  return false;
+});

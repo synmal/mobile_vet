@@ -1,12 +1,4 @@
 <h1>Declined Appointments</h1>
-<% @appointments.all.each do |app| %>
-  <h3>Client: <%= app.user.name %></h3>
-  <h3>Pet: <%= app.pet.name %></h3>
-  <h3>Type: <%= app.pet.pet_type %></h3>
-  <h3>Breed: <%= app.pet.breed %></h3>
-  <h3>Date & Time: <%= app.appointment_date %> <%= app.time.strftime("%H:%M") %></h3>
-  <h3>Case Description: <%= app.description %></h3>
-  <h3>Location: <%= app.location %></h3>
-  <h3 id="status-<%= app.id %>">Status: <%= app.status %></h3>
-  <hr>
-<% end %>
+<div id='declined-container'>
+  <%= render 'appointments/declined' %>
+</div>
