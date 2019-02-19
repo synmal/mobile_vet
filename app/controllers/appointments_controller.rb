@@ -101,6 +101,7 @@ class AppointmentsController < ApplicationController
       #   to: appointment.user.phone,
       #   body: "Your appointment for #{appointment.pet.name} on #{appointment.appointment_date} at #{appointment.time.strftime("%H:%M")} has been #{appointment.status}"
       # })
+      SmsAppointmentStatusJob.perform_later(appointment)
       respond_to do |format|
         format.html
         format.json {render json: appointment }
