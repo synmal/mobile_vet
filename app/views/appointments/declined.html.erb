@@ -1,6 +1,6 @@
 <h1>Declined Appointments</h1>
 
-<%= form_with url: declined_appointments_path, local: true, method: 'get' do |form| %>
+<%= form_with url: declined_appointments_path, method: 'get' do |form| %>
   <%= render partial:'appointments/search', locals: {form: form} %>
 <% end %>
 
