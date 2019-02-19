@@ -55,7 +55,11 @@ class AppointmentsController < ApplicationController
       redirect_to root_path
       flash[:error] = 'Access Denied'
     else
-      @appointments = Appointment.where(status: 'pending').page params[:page]
+      if params[:search]
+        @appointments = Appointment.where(status: 'pending').search_appointment(params[:search]).page params[:page]
+      else
+        @appointments = Appointment.where(status: 'pending').page params[:page]
+      end
     end
   end
 
@@ -64,7 +68,11 @@ class AppointmentsController < ApplicationController
       redirect_to root_path
       flash[:error] = 'Access Denied'
     else
-      @appointments = Appointment.where(status: 'accepted').order(created_at: :DESC).page params[:page]
+      if params[:search]
+        @appointments = Appointment.where(status: 'accepted').search_appointment(params[:search]).order(created_at: :DESC).page params[:page]
+      else
+        @appointments = Appointment.where(status: 'accepted').order(created_at: :DESC).page params[:page]
+      end
     end
   end
 
@@ -73,7 +81,11 @@ class AppointmentsController < ApplicationController
       redirect_to root_path
       flash[:error] = 'Access Denied'
     else
-      @appointments = Appointment.where(status: 'declined').order(created_at: :DESC).page params[:page]
+      if params[:search]
+        @appointments = Appointment.where(status: 'declined').search_appointment(params[:search]).order(created_at: :DESC).page params[:page]
+      else
+        @appointments = Appointment.where(status: 'declined').order(created_at: :DESC).page params[:page]
+      end
     end
   end
 
