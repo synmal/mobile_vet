@@ -1,4 +1,9 @@
 <h1>Pending Appointments</h1>
+
+<%= form_with url: pending_appointments_path, method: 'get' do |form| %>
+  <%= render partial:'appointments/search', locals: {form: form} %>
+<% end %>
+
 <div class='pending-container'>
   <%= render 'appointments/pending' %>
 </div>
