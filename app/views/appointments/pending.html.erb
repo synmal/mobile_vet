@@ -23,7 +23,7 @@
         dataType: 'json',
         success: function(data) {
           console.log(data['id']);
-          $(`#status-${data['id']}`).html(`Status: ${data['status']}`);
+          $(`#status-${data['id']}`).html(`${data['status']}`);
         }
       });
     });
