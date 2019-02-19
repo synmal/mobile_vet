@@ -1,17 +1,25 @@
 <%= paginate @appointments, remote: true %>
+<div class='row justify-content-around'>
   <% @appointments.all.each do |app| %>
-    <h3>Client: <%= app.user.name %></h3>
-    <h3>Pet: <%= app.pet.name %></h3>
-    <h3>Type: <%= app.pet.pet_type %></h3>
-    <h3>Breed: <%= app.pet.breed %></h3>
-    <h3>Date & Time: <%= app.appointment_date %> <%= app.time.strftime("%H:%M") %></h3>
-    <h3>Case Description: <%= app.description %></h3>
-    <h3>Location: <%= app.location %></h3>
-    <h3 id="status-<%= app.id %>">Status: <%= app.status %></h3>
-    <div class='d-flex' id='button-container'>
-    <button class='btn btn-outline-primary mr-2' value="<%= app.id %>" data-enums=1>Accept</button>
-    <button class='btn btn-outline-danger ml-2' value="<%= app.id %>" data-enums=2>Decline</button>
-    </div>
-    <hr>
+      <div class="card m-2" style="width: 22rem;">
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><%= app.pet.name %></h5>
+          <p class="card-text"><%= app.description %></p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Owner Name: </strong><%= app.user.name %></li>
+          <li class="list-group-item"><strong>Pet Type: </strong><%= app.pet.pet_type %></li>
+          <li class="list-group-item"><strong>Pet Breed: </strong><%= app.pet.breed %></li>
+          <li class="list-group-item"><strong>Appointment Date: </strong><%= app.appointment_date %> <%= app.time.strftime("%H:%M") %></li>
+          <li class="list-group-item"><strong>Appointment Location: </strong><%= app.location %></li>
+          <li class="list-group-item"><strong>Appointment Status: </strong><span id="status-<%= app.id %>"><%= app.status %></span></li>
+        </ul>
+        <div class='card-body' id='button-container'>
+          <button class='btn btn-outline-primary mr-2' value="<%= app.id %>" data-enums=1>Accept</button>
+          <button class='btn btn-outline-danger ml-2' value="<%= app.id %>" data-enums=2>Decline</button>
+        </div>
+      </div>
   <% end %>
+</div>
 <%= paginate @appointments, remote: true %>

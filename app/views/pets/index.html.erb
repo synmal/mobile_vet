@@ -1,9 +1,22 @@
 <h1>Your pets</h1>
 <%= link_to 'Add New Pet', new_user_pet_path(current_user.id), class: 'btn btn-outline-primary' %>
-<div class='m-5'></div>
-<% current_user.pets.each do |pet| %>
-  <h4><%= pet.name %></h4>
-  <%= link_to 'Edit Pet Info', edit_user_pet_path(current_user.id, pet.id), class: 'btn btn-outline-primary' %>
-  <%= link_to 'Delete Pet', user_pet_path(current_user.id, pet.id), method: :delete, class: 'btn btn-outline-danger' %>
-  <hr>
-<% end %>
+
+<div class='row justify-content-around mt-3'>
+  <% current_user.pets.each do |pet| %>
+    <div class="card m-2" style="width: 22rem;">
+      <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title"><%= pet.name %></h5>
+        <p class="card-text"><%= pet.age %> years old</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Pet Type: </strong><%= pet.pet_type %></li>
+        <li class="list-group-item"><strong>Pet Breed: </strong><%= pet.breed %></li>
+      </ul>
+      <div class='card-body'>
+        <%= link_to 'Edit Pet Info', edit_user_pet_path(current_user.id, pet.id), class: 'card-link' %>
+        <%= link_to 'Delete Pet', user_pet_path(current_user.id, pet.id), method: :delete, class: 'card-link' %>
+      </div>
+    </div>
+  <% end %>
+</div>

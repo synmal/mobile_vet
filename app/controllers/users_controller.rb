@@ -3,6 +3,10 @@ class UsersController < ApplicationController
   before_action :require_login, except: [:new, :create]
 
   def new
+    if signed_in?
+      redirect_to root_path
+      flash[:error] = 'You already signed up'
+    end
   end
 
   def show

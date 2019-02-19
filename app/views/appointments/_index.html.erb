@@ -1,14 +1,27 @@
 <%= paginate @appointments, remote: true %>
-  <% @appointments.each do |appointment| %>
-    <h4><%= appointment.appointment_date %> <%= appointment.time.strftime("%H:%M") %></h4>
-    <p><%= appointment.pet.name %></p>
-    <p><%= appointment.description %></p>
-    <p><%= appointment.location %></p>
-    <p><%= appointment.status %></p>
-    <% if appointment.status == 'pending' %>
-      <%= link_to 'Edit Appointment', edit_appointment_path(appointment.id), class:'btn btn-outline-primary mb-2' %>
-      <%= link_to 'Delete Appointment', appointment_path(appointment.id), method: :delete, class:'btn btn-outline-danger mb-2' %>
-    <% end %>
-    <hr>
+<div class='row justify-content-around'>
+  <% @appointments.all.each do |app| %>
+      <div class="card m-2" style="width: 22rem;">
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><%= app.pet.name %></h5>
+          <p class="card-text"><%= app.description %></p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Owner Name: </strong><%= app.user.name %></li>
+          <li class="list-group-item"><strong>Pet Type: </strong><%= app.pet.pet_type %></li>
+          <li class="list-group-item"><strong>Pet Breed: </strong><%= app.pet.breed %></li>
+          <li class="list-group-item"><strong>Appointment Date: </strong><%= app.appointment_date %> <%= app.time.strftime("%H:%M") %></li>
+          <li class="list-group-item"><strong>Appointment Location: </strong><%= app.location %></li>
+          <li class="list-group-item"><strong>Appointment Status: </strong><%= app.status %></li>
+        </ul>
+        <% if app.status == 'pending' %>
+          <div class='card-body d-flex'>
+            <%= link_to 'Edit Appointment', edit_appointment_path(app.id), class:'btn btn-outline-primary mr-2' %>
+            <%= link_to 'Delete Appointment', user_appointments_path(app.id), class:'btn btn-outline-danger ml-2' %>
+          </div>
+        <% end %>
+      </div>
   <% end %>
+</div>
 <%= paginate @appointments, remote: true %>
