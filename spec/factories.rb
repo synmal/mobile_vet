@@ -1,25 +1,30 @@
 FactoryBot.define do
-  factory :diagnosis do
-    
+  sequence :email do |n|
+    "person#{n}@example.com"
   end
+
   factory :appointment do
-    user { nil }
-    pet { nil }
+    user
+    pet
     description { "MyText" }
-    appointment_date { "2019-02-16" }
+    appointment_date { Date.today }
     location { "MyString" }
+    time { Time.now }
   end
+
   factory :user do
     name { "John Smith" }
     address { "1" }
-    email { "johnsmith@example.com" }
-    password { "123" }
-    roles { 'user' }
+    email { generate :email }
+    password { "this@is@a@stong@password" }
+    phone { "1234567890" }
   end
 
   factory :pet do
     user
-    name { "jojo" }
-    pet_type { "cat" }
+    name { "Chico" }
+    pet_type { "Dog" }
+    breed { "German Shephard" }
+    age { 3 }
   end
 end
