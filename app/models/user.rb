@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  has_many :pets
-  has_many :appointments
+  has_many :pets, dependant: :destroy
+  has_many :appointments, dependant: :destroy
   has_secure_password
   validates :email, presence: true, uniqueness: true
   validates :name, :address, :phone, presence: true
