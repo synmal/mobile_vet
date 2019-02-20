@@ -8,4 +8,13 @@ class Appointment < ApplicationRecord
     :pet => [:name, :pet_type, :breed],
     :user => [:name]
   }
+
+  def self.status(status)
+    self.where(status: status).order(created_at: :DESC)
+  end
+
+  def self.upcoming
+    self.where(status: 'accepted', appointment_date: Date.today).order(created_at: :DESC)
+  end
+
 end

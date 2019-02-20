@@ -5,6 +5,7 @@ class AppointmentsController < ApplicationController
   before_action :set_appointment, only: [:edit, :update, :destroy]
   before_action :check_status, only: [:edit, :update, :destroy]
   before_action :check_appointment, only: [:edit, :update]
+  before_action :check_doctor, only: [:pending, :all_upcoming, :accepted, :declined]
   
   def new
   end
@@ -51,54 +52,38 @@ class AppointmentsController < ApplicationController
   end
 
   def pending
-    if !current_user.doctor?
-      redirect_to root_path
-      flash[:error] = 'Access Denied'
+    @appointments = Appointment.status('pending')
+    if params[:search]
+      @appointments = @appointments.search_appointment(params[:search]).page(params[:page])  
     else
-      if params[:search]
-        @appointments = Appointment.where(status: 'pending').search_appointment(params[:search]).page params[:page]
-      else
-        @appointments = Appointment.where(status: 'pending').page params[:page]
-      end
+      @appointments = @appointments.page(params[:page])
     end
   end
 
   def all_upcoming
-    if !current_user.doctor?
-      redirect_to root_path
-      flash[:error] = 'Access Denied'
+    @appointments = Appointment.upcoming
+    if params[:search]
+      @appointments = @appointments.search_appointment(params[:search]).page(params[:page])  
     else
-      if params[:search]
-        @appointments = Appointment.where(status: 'accepted', appointment_date: Date.today).search_appointment(params[:search]).page params[:page]
-      else
-        @appointments = Appointment.where(status: 'accepted', appointment_date: Date.today).page params[:page]
-      end
+      @appointments = @appointments.page(params[:page])
     end
   end
 
   def accepted
-    if !current_user.doctor?
-      redirect_to root_path
-      flash[:error] = 'Access Denied'
+    @appointments = Appointment.status('accepted')
+    if params[:search]
+      @appointments = @appointments.search_appointment(params[:search]).page(params[:page])  
     else
-      if params[:search]
-        @appointments = Appointment.where(status: 'accepted').search_appointment(params[:search]).order(created_at: :DESC).page params[:page]
-      else
-        @appointments = Appointment.where(status: 'accepted').order(created_at: :DESC).page params[:page]
-      end
+      @appointments = @appointments.page(params[:page])
     end
   end
 
   def declined
-    if !current_user.doctor?
-      redirect_to root_path
-      flash[:error] = 'Access Denied'
+    @appointments = Appointment.status('declined')
+    if params[:search]
+      @appointments = @appointments.search_appointment(params[:search]).page(params[:page])  
     else
-      if params[:search]
-        @appointments = Appointment.where(status: 'declined').search_appointment(params[:search]).order(created_at: :DESC).page params[:page]
-      else
-        @appointments = Appointment.where(status: 'declined').order(created_at: :DESC).page params[:page]
-      end
+      @appointments = @appointments.page(params[:page])
     end
   end
 
@@ -148,6 +133,13 @@ class AppointmentsController < ApplicationController
 
   def check_status
     if set_appointment.status != 'pending'
+      redirect_to root_path
+      flash[:error] = 'Access Denied'
+    end
+  end
+
+  def check_doctor
+    if !current_user.doctor?
       redirect_to root_path
       flash[:error] = 'Access Denied'
     end

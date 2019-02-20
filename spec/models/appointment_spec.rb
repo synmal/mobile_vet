@@ -39,4 +39,50 @@ RSpec.describe Appointment, type: :model do
   it 'should belongs to pet' do
     expect(Appointment.reflect_on_association(:pet).macro).to eq(:belongs_to)
   end
+
+  
+  context 'Appointment model status method' do
+    it 'should return appointment that is pending' do
+      create(:appointment)
+      status = []
+      Appointment.status('pending').each do |app|
+        status << app.status
+      end
+      expect(status).to all(eq('pending'))
+    end
+
+    it 'should return appointment that is accepted' do
+      status = []
+      Appointment.status('accepted').each do |app|
+        status << app.status
+      end
+      expect(status).to all(eq('accepted'))
+    end
+  
+    it 'should return appointment that is declined' do
+      status = []
+      Appointment.status('declined').each do |app|
+        status << app.status
+      end
+      expect(status).to all(eq('declined'))
+    end
+  end
+
+  context 'Appointment model upcoming method' do
+    it 'should return appointment that is accepted' do
+      status = []
+      Appointment.upcoming.each do |app|
+        status << app.status
+      end
+      expect(status).to all(eq('accepted'))
+    end
+
+    it 'should return appointment that is today' do
+      date = []
+      Appointment.upcoming.each do |app|
+        date << app.appointment_date
+      end
+      expect(date).to all(eq(Date.today))
+    end
+  end
 end
