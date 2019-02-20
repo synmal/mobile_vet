@@ -1,2 +1,9 @@
-<%= render partial: 'jumbotron' %>
-
+<% if current_user.nil? %>
+  <%= render partial: 'jumbotron' %>
+<% elsif current_user.doctor? %>
+  <%= render partial: 'doctor' %>
+<% elsif current_user.admin? %>
+  <%= render partial: 'admin' %>
+<% elsif current_user.user? %>
+  <%= render partial: 'user' %>
+<% end %>

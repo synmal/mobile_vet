@@ -1,0 +1,7 @@
+<div class="jumbotron">
+  <h1 class="display-4">Welcome back, <%= current_user.name %></h1>
+  <p class="lead">What would you like to do today?</p>
+  <hr class="my-4">
+  <%= link_to 'Add new appointment', new_user_appointment_path(current_user.id), class:'btn btn-primary btn-lg mr-1' %>
+  <%= link_to 'View your appointments', user_appointments_path(current_user.id), class:'btn btn-primary btn-lg ml-1' %>
+</div>
