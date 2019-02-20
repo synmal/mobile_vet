@@ -27,6 +27,7 @@
                 <%= link_to 'Pending', pending_appointments_path, class:'dropdown-item' %>
                 <%= link_to 'Accepted', accepted_appointments_path, class:'dropdown-item' %>
                 <%= link_to 'Declined', declined_appointments_path, class: 'dropdown-item' %>
+                <%= link_to 'Upcoming', all_upcoming_appointments_path, class: 'dropdown-item' %>
               </div>
             </li>
           <% elsif current_user.admin?%>
