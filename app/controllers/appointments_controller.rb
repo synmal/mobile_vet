@@ -2,7 +2,7 @@ class AppointmentsController < ApplicationController
   before_action :require_login
   before_action :check_user, only: [:index]
   before_action :set_user, only: [:new, :create, :index, :edit]
-  before_action :set_appointment, only: [:edit, :update, :destroy]
+  before_action :set_appointment, only: [:show, :edit, :update, :destroy]
   before_action :check_status, only: [:edit, :update, :destroy]
   before_action :check_appointment, only: [:edit, :update]
   before_action :check_doctor, only: [:pending, :all_upcoming, :accepted, :declined]
@@ -77,7 +77,7 @@ class AppointmentsController < ApplicationController
     appointment = Appointment.find(app_id)
     appointment.update(status: app_status)
     if appointment.save
-      SmsAppointmentStatusJob.perform_later(appointment)
+      # SmsAppointmentStatusJob.perform_later(appointment)
       respond_to do |format|
         format.html
         format.json {render json: appointment }

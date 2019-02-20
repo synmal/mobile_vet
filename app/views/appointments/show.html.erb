@@ -1,0 +1,69 @@
+<h1>Appointment Details</h1>
+<div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col-md-4 p-3">
+      <img src="https://via.placeholder.com/150" class="card-img" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Pet Name: </strong><%= @appointment.pet.name %></li>
+          <li class="list-group-item"><strong>Owner Name: </strong><%= @appointment.user.name %></li>
+          <li class="list-group-item"><strong>Owner Phone: </strong><%= @appointment.user.phone %></li>
+          <li class="list-group-item"><strong>Owner Email: </strong><%= @appointment.user.email %></li>
+          <li class="list-group-item"><strong>Pet Type: </strong><%= @appointment.pet.pet_type %></li>
+          <li class="list-group-item"><strong>Pet Breed: </strong><%= @appointment.pet.breed %></li>
+          <li class="list-group-item"><strong>Location: </strong><%= @appointment.location %></li>
+          <li class="list-group-item"><strong>Date: </strong><%= @appointment.appointment_date %></li>
+          <li class="list-group-item"><strong>Time: </strong><%= @appointment.time.strftime("%H:%M") %></li>
+          <li class="list-group-item"><strong>Description: </strong><%= @appointment.description %></li>
+          <li class="list-group-item"><strong>Status: </strong><span id="status-<%= @appointment.id %>"><%= @appointment.status.capitalize %></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class='card-body' id='button-container'>
+    <button class='btn btn-lg btn-outline-primary mr-2' value="<%= @appointment.id %>" data-enums=1>Accept</button>
+    <button class='btn btn-lg btn-outline-danger ml-2' value="<%= @appointment.id %>" data-enums=2>Decline</button>
+  </div>
+</div>
+
+<% if @appointment.accepted? %>
+  <script>
+    $(document).ready(function(){
+      $('#button-container .btn-outline-primary').hide();
+    });
+  </script>
+<% elsif @appointment.declined? %>
+  <script>
+    $(document).ready(function(){
+      $('#button-container .btn-outline-danger').hide();
+    });
+  </script>
+<% end %>
+
+<script>
+    $('#button-container button').click(function(e){
+      e.preventDefault();
+      let updateStatus = {
+        'id': $(this).attr('value'),
+        'status': $(this).attr('data-enums')
+      }
+      $.ajax({
+        method: "POST",
+        url: `/appointments/${updateStatus['id']}/update_status`,
+        data: updateStatus,
+        dataType: 'json',
+        success: function(data) {
+          $(`#status-${data['id']}`).html(`${data['status'].charAt(0).toUpperCase() + data['status'].slice(1)}`);
+          if (data['status'] == 'accepted'){
+            $('#button-container .btn-outline-primary').hide();
+            $('#button-container .btn-outline-danger').show();
+          } else if (data['status'] == 'declined'){
+            $('#button-container .btn-outline-danger').hide();
+            $('#button-container .btn-outline-primary').show();
+          }
+        }
+      });
+    });
+</script>
