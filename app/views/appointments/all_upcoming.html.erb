@@ -1,0 +1,9 @@
+<h1>Today's appointment</h1>
+
+<%= form_with url: all_upcoming_appointments_path, method: 'get' do |form| %>
+  <%= render partial:'appointments/search', locals: {form: form} %>
+<% end %>
+
+<div id='upcoming-container'>
+  <%= render 'appointments/upcoming' %>
+</div>

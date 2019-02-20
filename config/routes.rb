@@ -22,4 +22,5 @@ Rails.application.routes.draw do
   get 'accepted', to: 'appointments#accepted', as: 'accepted_appointments'
   get 'declined', to: 'appointments#declined', as: 'declined_appointments'
   post 'appointments/:id/update_status', to: 'appointments#update_status', as: 'update_status'
+  get 'all_upcoming', to: 'appointments#all_upcoming', as: 'all_upcoming_appointments'
 end

@@ -63,6 +63,19 @@ class AppointmentsController < ApplicationController
     end
   end
 
+  def all_upcoming
+    if !current_user.doctor?
+      redirect_to root_path
+      flash[:error] = 'Access Denied'
+    else
+      if params[:search]
+        @appointments = Appointment.where(status: 'accepted', appointment_date: Date.today).search_appointment(params[:search]).page params[:page]
+      else
+        @appointments = Appointment.where(status: 'accepted', appointment_date: Date.today).page params[:page]
+      end
+    end
+  end
+
   def accepted
     if !current_user.doctor?
       redirect_to root_path

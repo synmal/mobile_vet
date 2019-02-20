@@ -1,0 +1,5 @@
+$(document).ready(function(){
+  $("#upcoming-container").html("<%= j render("upcoming") %>")
+  $("html, body").animate({ scrollTop: 0 }, "slow");
+  return false;
+});
