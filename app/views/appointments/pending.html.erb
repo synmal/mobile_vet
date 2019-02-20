@@ -5,27 +5,5 @@
 <% end %>
 
 <div id='pending-container'>
-  <%= render 'appointments/pending' %>
+  <%= render 'pending', locals: { appointments: @appointments } %>
 </div>
-
-<script>
-  // $(document).ready(function(){
-    $('#button-container button').click(function(e){
-      e.preventDefault();
-      let updateStatus = {
-        'id': $(this).attr('value'),
-        'status': $(this).attr('data-enums')
-      }
-      $.ajax({
-        method: "POST",
-        url: `/appointments/${updateStatus['id']}/update_status`,
-        data: updateStatus,
-        dataType: 'json',
-        success: function(data) {
-          console.log(data['id']);
-          $(`#status-${data['id']}`).html(`${data['status']}`);
-        }
-      });
-    });
-  // });
-</script>

@@ -72,16 +72,12 @@ class AppointmentsController < ApplicationController
   end
 
   def update_status
-    app_id = params[:id].to_i
-    app_status = params[:status].to_i
-    appointment = Appointment.find(app_id)
-    appointment.update(status: app_status)
+    @appointments = Appointment.where(status: 'pending').order(created_at: :DESC).page(params[:page])
+    appointment = Appointment.find(params[:id])
+    appointment.update(status: params[:status].to_i)
     if appointment.save
-      SmsAppointmentStatusJob.perform_later(appointment)
-      respond_to do |format|
-        format.html
-        format.json {render json: appointment }
-      end
+      # SmsAppointmentStatusJob.perform_later(appointment)
+      render 'pending'
     else
       redirect_to pending_appointments_path
       flash[:error] = 'Something is wrong. Please try again later.'
