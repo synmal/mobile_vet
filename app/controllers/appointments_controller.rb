@@ -52,39 +52,23 @@ class AppointmentsController < ApplicationController
   end
 
   def pending
-    @appointments = Appointment.status('pending')
-    if params[:search]
-      @appointments = @appointments.search_appointment(params[:search]).page(params[:page])  
-    else
-      @appointments = @appointments.page(params[:page])
-    end
+    @appointments = Appointment.status('pending', params[:search])
+    @appointments = @appointments.page(params[:page]) 
   end
 
   def all_upcoming
-    @appointments = Appointment.upcoming
-    if params[:search]
-      @appointments = @appointments.search_appointment(params[:search]).page(params[:page])  
-    else
-      @appointments = @appointments.page(params[:page])
-    end
+    @appointments = Appointment.upcoming(params[:search])
+    @appointments = @appointments.page(params[:page])
   end
 
   def accepted
-    @appointments = Appointment.status('accepted')
-    if params[:search]
-      @appointments = @appointments.search_appointment(params[:search]).page(params[:page])  
-    else
-      @appointments = @appointments.page(params[:page])
-    end
+    @appointments = Appointment.status('accepted', params[:search])
+    @appointments = @appointments.page(params[:page])
   end
 
   def declined
-    @appointments = Appointment.status('declined')
-    if params[:search]
-      @appointments = @appointments.search_appointment(params[:search]).page(params[:page])  
-    else
-      @appointments = @appointments.page(params[:page])
-    end
+    @appointments = Appointment.status('declined', params[:search])
+    @appointments = @appointments.page(params[:page])  
   end
 
   def update_status

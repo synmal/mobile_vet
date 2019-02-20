@@ -53,3 +53,9 @@
 #     end
 #   end
 # end
+
+30.times do
+  a = User.find_by(email: 'malcolmjeremiahrajeli@gmail.com')
+  a.appointments.new(pet_id: a.pets.sample.id, description: 'asdfasdfasdf', appointment_date: Date.today+1, location: a.address, time: Time.now)
+  a.save
+end

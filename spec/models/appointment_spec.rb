@@ -45,7 +45,7 @@ RSpec.describe Appointment, type: :model do
     it 'should return appointment that is pending' do
       create(:appointment)
       status = []
-      Appointment.status('pending').each do |app|
+      Appointment.status('pending', '').each do |app|
         status << app.status
       end
       expect(status).to all(eq('pending'))
@@ -53,7 +53,7 @@ RSpec.describe Appointment, type: :model do
 
     it 'should return appointment that is accepted' do
       status = []
-      Appointment.status('accepted').each do |app|
+      Appointment.status('accepted', '').each do |app|
         status << app.status
       end
       expect(status).to all(eq('accepted'))
@@ -61,7 +61,7 @@ RSpec.describe Appointment, type: :model do
   
     it 'should return appointment that is declined' do
       status = []
-      Appointment.status('declined').each do |app|
+      Appointment.status('declined', '').each do |app|
         status << app.status
       end
       expect(status).to all(eq('declined'))
@@ -71,7 +71,7 @@ RSpec.describe Appointment, type: :model do
   context 'Appointment model upcoming method' do
     it 'should return appointment that is accepted' do
       status = []
-      Appointment.upcoming.each do |app|
+      Appointment.upcoming('').each do |app|
         status << app.status
       end
       expect(status).to all(eq('accepted'))
@@ -79,7 +79,7 @@ RSpec.describe Appointment, type: :model do
 
     it 'should return appointment that is today' do
       date = []
-      Appointment.upcoming.each do |app|
+      Appointment.upcoming('').each do |app|
         date << app.appointment_date
       end
       expect(date).to all(eq(Date.today))
