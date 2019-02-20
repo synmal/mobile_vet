@@ -19,16 +19,23 @@
               <%= link_to 'All Appointments', user_appointments_path(current_user.id), class:'nav-link' %>        
             </li>
           <% elsif current_user.doctor? %>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Appointments
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <%= link_to 'Pending', pending_appointments_path, class:'dropdown-item' %>
-                  <%= link_to 'Accepted', accepted_appointments_path, class:'dropdown-item' %>
-                  <%= link_to 'Declined', declined_appointments_path, class: 'dropdown-item' %>
-                </div>
-              </li>                  
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Appointments
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <%= link_to 'Pending', pending_appointments_path, class:'dropdown-item' %>
+                <%= link_to 'Accepted', accepted_appointments_path, class:'dropdown-item' %>
+                <%= link_to 'Declined', declined_appointments_path, class: 'dropdown-item' %>
+              </div>
+            </li>
+          <% elsif current_user.admin?%>
+            <li class="nav-item">
+              <%= link_to 'Admin Dashboard', rails_admin_path, class:'nav-link' %>        
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Sidekiq', sidekiq_web_path, class:'nav-link' %>        
+            </li>
           <% end %>
         <% end %>
       </ul>
@@ -42,7 +49,9 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <%= link_to 'View Profile', user_path(current_user.id), class:'dropdown-item' %>
               <%= link_to 'Edit Profile', edit_user_path(current_user.id), class:'dropdown-item' %>
-              <%= link_to 'Your pets', user_pets_path(current_user.id), class: 'dropdown-item' %>
+              <% if current_user.user? %>
+                <%= link_to 'Your pets', user_pets_path(current_user.id), class: 'dropdown-item' %>
+              <% end %>
               <div class="dropdown-divider"></div>
               <%= link_to 'Log Out', logout_path, class:'dropdown-item' %>
             </div>
