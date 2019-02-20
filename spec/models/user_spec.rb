@@ -47,7 +47,7 @@ RSpec.describe User, type: :model do
     expect{ create(:user, email: user.email) }.to raise_error('Validation failed: Email has already been taken')
   end
 
-  it 'should have proper emai' do
+  it 'should have proper email' do
     expect{ create(:user, email: 'asd') }.to raise_error('Validation failed: Email is invalid')
   end
 end
