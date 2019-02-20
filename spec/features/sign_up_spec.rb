@@ -26,4 +26,3 @@ describe "the sign up process", type: :feature do
     expect(page).to have_content 'Log In'
   end
 end
-
