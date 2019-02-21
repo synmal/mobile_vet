@@ -1,7 +1,7 @@
 <%= paginate @appointments, remote: true %>
 <div class='row justify-content-around'>
   <% @appointments.all.each do |app| %>
-      <div class="card m-2" style="width: 22rem;">
+      <div class="card m-2 bg-danger" style="width: 22rem;">
         <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title"><%= app.pet.name %></h5>
@@ -15,7 +15,7 @@
           <li class="list-group-item"><strong>Appointment Status: </strong><%= app.status.capitalize %></li>
         </ul>
         <div class='card-body' id='button-container'>
-          <%= link_to 'Full Details', appointment_path(app.id), class:'btn btn-outline-primary' %>
+          <%= link_to 'Full Details', appointment_path(app.id), class:'btn btn-primary' %>
         </div>
       </div>
   <% end %>

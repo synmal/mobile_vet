@@ -77,7 +77,7 @@ class AppointmentsController < ApplicationController
     appointment = Appointment.find(app_id)
     appointment.update(status: app_status)
     if appointment.save
-      # SmsAppointmentStatusJob.perform_later(appointment)
+      SmsAppointmentStatusJob.perform_later(appointment)
       respond_to do |format|
         format.html
         format.json {render json: appointment }
