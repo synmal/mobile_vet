@@ -22,10 +22,19 @@
       </div>
     </div>
   </div>
-  <div class='card-body' id='button-container'>
-    <button class='btn btn-lg btn-primary mr-2' value="<%= @appointment.id %>" data-enums=1>Accept</button>
-    <button class='btn btn-lg btn-danger ml-2' value="<%= @appointment.id %>" data-enums=2>Decline</button>
-  </div>
+  <% if current_user.doctor? %>
+    <div class='card-body' id='button-container'>
+      <button class='btn btn-lg btn-primary mr-2' value="<%= @appointment.id %>" data-enums=1>Accept</button>
+      <button class='btn btn-lg btn-danger ml-2' value="<%= @appointment.id %>" data-enums=2>Decline</button>
+    </div>
+  <% else %>
+    <% if @appointment.status == 'pending' %>
+      <div class='card-body'>
+        <%= link_to 'Edit Appointment', edit_appointment_path(@appointment.id), class:'btn btn-outline-primary mr-2' %>
+        <%= link_to 'Delete Appointment', user_appointments_path(@appointment.id), class:'btn btn-outline-danger ml-2' %>
+      </div>
+    <% end %>
+  <% end %>
 </div>
 
 <% if @appointment.accepted? %>
